@@ -1,49 +1,55 @@
 import React, { useState } from 'react'
+import { registerUser } from '../../service/authService';
 import { Link } from 'react-router-dom';
-import {registerUser} from '../../service/authService.jsx';
 
 const Register = () => {
-  const [formData, setFormData]=useState({
-    username:"",
-    email:"",
-    password:""
-  })
 
-  const [message, setMessage]=useState("");
-  const [error, setError]=useState("");
-  const [loading, setLoading]=useState("");
+    const [formData,setFormData] = useState({
+        username: "",
+        email: "",
+        password: ""
+})
 
-  const handleChange=(e)=>{
-    const{name,value}=e.target;
-    setFormData({
-      ...formData,
-      [name]:value,
-    })
+    const [message,setMessage] = useState("");
+    const [error, setError] = useState("");
+        const [loading, setLoading] = useState("");
 
-  }
-
-  const handleSubmit=async(e)=>{
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setMessage("");
-    try{
-      //1. send formData to backend
-      const response=await registerUser(formData);
-      setMessage(response.data);
-      setFormData({
-        username:"",
-        email:"",
-        password:""
-      })
-    }catch(error){
-      setError(error.response?.data?.message || "Registration failed");
-      console.log(error);
-    }finally{
-      setLoading(false);
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        })
     }
-  }
- return (
+
+        const handleSubmit = async(Event) => {
+            Event.preventDefault();
+            setMessage("");
+            setError("");
+            setError("");
+            try{
+                const responce = await registerUser(formData);
+                setMessage(responce.data);
+                setFormData(
+                    {
+                        username: "",
+                        email: "",
+                        password: ""
+
+                    }  )
+              
+            }catch(e) {
+                setError(error.responce?.data?.message || "registeration failed")
+                console.log(e);
+                
+            }
+            finally{
+                setLoading(false);
+            }
+        }
+
+
+      return (
     <div className="container py-5">
 
       <div className="row justify-content-center">
